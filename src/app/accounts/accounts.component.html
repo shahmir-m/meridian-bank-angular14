@@ -1,0 +1,91 @@
+<div class="accounts-container">
+  <h1 class="page-title">Accounts</h1>
+
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner diameter="48"></mat-spinner>
+  </div>
+
+  <ng-container *ngIf="!loading">
+    <div class="accounts-layout">
+
+      <!-- Account List -->
+      <div class="account-list">
+        <ng-container *ngIf="accounts$ | async as accounts">
+          <mat-card
+            *ngFor="let account of accounts"
+            class="account-list-card"
+            [class.selected]="selectedAccount?.id === account.id"
+            (click)="selectAccount(account)">
+            <mat-card-content>
+              <div class="account-row">
+                <mat-icon [style.color]="getAccountColor(account.type)">
+                  {{ getAccountIcon(account.type) }}
+                </mat-icon>
+                <div class="account-info">
+                  <div class="account-name">{{ account.name }}</div>
+                  <div class="account-number">{{ account.accountNumber }}</div>
+                </div>
+                <div class="account-balance">{{ account.balance | currency:'USD' }}</div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </ng-container>
+      </div>
+
+      <!-- Account Detail -->
+      <div class="account-detail">
+        <ng-container *ngIf="selectedAccount; else noSelection">
+          <mat-card class="detail-card">
+            <mat-card-header>
+              <mat-icon mat-card-avatar [style.color]="getAccountColor(selectedAccount.type)">
+                {{ getAccountIcon(selectedAccount.type) }}
+              </mat-icon>
+              <mat-card-title>{{ selectedAccount.name }}</mat-card-title>
+              <mat-card-subtitle>
+                <span *ngIf="selectedAccount.type === 'checking'">Checking Account</span>
+                <span *ngIf="selectedAccount.type === 'savings'">Savings Account</span>
+                <span *ngIf="selectedAccount.type === 'investment'">Investment Account</span>
+              </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="detail-balance">{{ selectedAccount.balance | currency:'USD' }}</div>
+              <mat-divider></mat-divider>
+              <mat-list>
+                <mat-list-item>
+                  <mat-icon matListItemIcon>tag</mat-icon>
+                  <span matListItemTitle>Account Number</span>
+                  <span matListItemLine>{{ selectedAccount.accountNumber }}</span>
+                </mat-list-item>
+                <mat-list-item>
+                  <mat-icon matListItemIcon>account_tree</mat-icon>
+                  <span matListItemTitle>Routing Number</span>
+                  <span matListItemLine>{{ selectedAccount.routingNumber }}</span>
+                </mat-list-item>
+                <mat-list-item>
+                  <mat-icon matListItemIcon>category</mat-icon>
+                  <span matListItemTitle>Account Type</span>
+                  <span matListItemLine class="capitalize">{{ selectedAccount.type }}</span>
+                </mat-list-item>
+              </mat-list>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-raised-button color="primary" [routerLink]="['/transactions']">
+                View Transactions
+              </button>
+              <button mat-stroked-button>Transfer Funds</button>
+            </mat-card-actions>
+          </mat-card>
+        </ng-container>
+
+        <ng-template #noSelection>
+          <mat-card class="no-selection-card">
+            <mat-card-content>
+              <mat-icon>account_balance</mat-icon>
+              <p>Select an account to view details</p>
+            </mat-card-content>
+          </mat-card>
+        </ng-template>
+      </div>
+    </div>
+  </ng-container>
+</div>

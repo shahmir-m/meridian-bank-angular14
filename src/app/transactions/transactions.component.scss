@@ -1,0 +1,87 @@
+.transactions-container { max-width: 1200px; }
+
+.page-title {
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: #1a237e;
+  margin-bottom: 24px;
+}
+
+.filters-card { margin-bottom: 16px; }
+
+.filters-row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+
+  .search-field { flex: 2; }
+  .filter-field { flex: 1; }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px;
+  gap: 16px;
+  color: #666;
+}
+
+.table-card { overflow: hidden; }
+
+.transactions-table { width: 100%; }
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px;
+  color: #bdbdbd;
+  mat-icon { font-size: 48px; width: 48px; height: 48px; }
+}
+
+.txn-desc {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  .cat-icon { font-size: 18px; width: 18px; height: 18px; color: #757575; }
+}
+
+.cat-badge {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: #e3f2fd;
+  color: #1565c0;
+  text-transform: capitalize;
+}
+
+.type-credit, .type-debit {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 0.85rem;
+  mat-icon { font-size: 14px; width: 14px; height: 14px; }
+}
+.type-credit { color: #2e7d32; }
+.type-debit { color: #c62828; }
+
+.amount-credit { color: #2e7d32; font-weight: 500; }
+.amount-debit { color: #c62828; }
+
+.status-chip {
+  font-size: 0.75rem;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+.status-completed { background: #e8f5e9; color: #2e7d32; }
+.status-pending { background: #fff3e0; color: #e65100; }
+.status-failed { background: #ffebee; color: #c62828; }
+
+.txn-count {
+  padding: 12px 16px;
+  font-size: 0.85rem;
+  color: #757575;
+  border-top: 1px solid #e0e0e0;
+}

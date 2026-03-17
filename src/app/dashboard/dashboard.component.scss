@@ -1,0 +1,103 @@
+.dashboard-container {
+  max-width: 1200px;
+}
+
+.page-title {
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: #1a237e;
+  margin-bottom: 24px;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px;
+  gap: 16px;
+  color: #666;
+}
+
+.total-balance-row {
+  margin-bottom: 24px;
+}
+
+.total-balance-card {
+  background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+  color: white;
+
+  .balance-label {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .balance-amount {
+    font-size: 2.5rem;
+    font-weight: 300;
+    margin: 8px 0;
+  }
+
+  .balance-subtitle {
+    font-size: 0.85rem;
+    opacity: 0.7;
+  }
+}
+
+.accounts-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.account-card {
+  .account-balance {
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: #1a237e;
+    margin: 12px 0;
+  }
+}
+
+.icon-checking { color: #1976d2; }
+.icon-savings { color: #388e3c; }
+.icon-investment { color: #f57c00; }
+
+.transactions-card {
+  margin-bottom: 24px;
+}
+
+.transactions-table {
+  width: 100%;
+}
+
+.txn-description {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .txn-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: #757575;
+  }
+}
+
+.amount-credit { color: #2e7d32; font-weight: 500; }
+.amount-debit { color: #c62828; }
+
+.status-completed { color: #2e7d32; font-size: 0.85rem; }
+.status-pending { color: #e65100; font-size: 0.85rem; }
+.status-failed { color: #c62828; font-size: 0.85rem; }
+
+.category-badge {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: #e3f2fd;
+  color: #1565c0;
+  text-transform: capitalize;
+}

@@ -1,0 +1,51 @@
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  padding: 20px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  color: white;
+
+  .bank-icon {
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+    margin-right: 10px;
+    color: #ffb300;
+  }
+
+  .bank-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+}
+
+mat-nav-list {
+  a {
+    color: rgba(255,255,255,0.8) !important;
+
+    mat-icon {
+      color: rgba(255,255,255,0.6) !important;
+    }
+
+    &.active-link {
+      background: rgba(255,255,255,0.15) !important;
+      color: white !important;
+
+      mat-icon {
+        color: #ffb300 !important;
+      }
+    }
+
+    &:hover {
+      background: rgba(255,255,255,0.1) !important;
+    }
+  }
+}
+
+.sidebar-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid rgba(255,255,255,0.15);
+}
