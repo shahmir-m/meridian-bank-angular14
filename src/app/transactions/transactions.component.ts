@@ -1,22 +1,67 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Component, OnInit, signal, computed } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatChipsModule } from '@angular/material/chips';
 import { DataService, Transaction } from '../shared/data.service';
 
 @Component({
   selector: 'app-transactions',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatCardModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatIconModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatProgressSpinnerModule,
+    MatChipsModule,
+  ],
   templateUrl: './transactions.component.html',
   styleUrls: ['./transactions.component.scss']
 })
 export class TransactionsComponent implements OnInit {
-  loading = true;
-  searchTerm = '';
-  selectedFilter = 'all';
+  loading = signal(true);
+  searchTerm = signal('');
+  selectedFilter = signal('all');
 
-  private searchSubject = new BehaviorSubject<string>('');
-  private filterSubject = new BehaviorSubject<string>('all');
+  allTransactions = signal<Transaction[]>([]);
 
-  filteredTransactions$: Observable<Transaction[]> | null = null;
+  filteredTransactions = computed(() => {
+    let result = this.allTransactions();
+    const search = this.searchTerm();
+    const filter = this.selectedFilter();
+
+    if (search) {
+      result = result.filter(t =>
+        t.description.toLowerCase().includes(search.toLowerCase()) ||
+        t.category.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+    if (filter !== 'all') {
+      if (filter === 'debit' || filter === 'credit') {
+        result = result.filter(t => t.type === filter);
+      } else if (filter === 'pending') {
+        result = result.filter(t => t.status === 'pending');
+      }
+    }
+    return result;
+  });
 
   displayedColumns: string[] = ['date', 'description', 'category', 'type', 'amount', 'status'];
 
@@ -30,41 +75,18 @@ export class TransactionsComponent implements OnInit {
   constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
-    const transactions$ = this.dataService.getTransactions();
-
-    this.filteredTransactions$ = combineLatest([
-      transactions$,
-      this.searchSubject,
-      this.filterSubject
-    ]).pipe(
-      map(([txns, search, filter]) => {
-        let result = txns;
-        if (search) {
-          result = result.filter(t =>
-            t.description.toLowerCase().includes(search.toLowerCase()) ||
-            t.category.toLowerCase().includes(search.toLowerCase())
-          );
-        }
-        if (filter !== 'all') {
-          if (filter === 'debit' || filter === 'credit') {
-            result = result.filter(t => t.type === filter);
-          } else if (filter === 'pending') {
-            result = result.filter(t => t.status === 'pending');
-          }
-        }
-        return result;
-      })
-    );
-
-    setTimeout(() => this.loading = false, 400);
+    this.dataService.getTransactions().subscribe(txns => {
+      this.allTransactions.set(txns);
+      this.loading.set(false);
+    });
   }
 
-  onSearch(): void {
-    this.searchSubject.next(this.searchTerm);
+  onSearch(value: string): void {
+    this.searchTerm.set(value);
   }
 
-  onFilterChange(): void {
-    this.filterSubject.next(this.selectedFilter);
+  onFilterChange(value: string): void {
+    this.selectedFilter.set(value);
   }
 
   getCategoryIcon(category: string): string {

@@ -1,26 +1,48 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnInit, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatChipsModule } from '@angular/material/chips';
 import { DataService, Account } from '../shared/data.service';
 
 @Component({
   selector: 'app-accounts',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterLink,
+    MatCardModule,
+    MatIconModule,
+    MatButtonModule,
+    MatListModule,
+    MatDividerModule,
+    MatProgressSpinnerModule,
+    MatChipsModule,
+  ],
   templateUrl: './accounts.component.html',
   styleUrls: ['./accounts.component.scss']
 })
 export class AccountsComponent implements OnInit {
-  accounts$: Observable<Account[]> | null = null;
-  selectedAccount: Account | null = null;
-  loading = true;
+  accounts = signal<Account[]>([]);
+  selectedAccount = signal<Account | null>(null);
+  loading = signal(true);
 
   constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
-    this.accounts$ = this.dataService.getAccounts();
-    setTimeout(() => this.loading = false, 300);
+    this.dataService.getAccounts().subscribe(a => {
+      this.accounts.set(a);
+      this.loading.set(false);
+    });
   }
 
   selectAccount(account: Account): void {
-    this.selectedAccount = account;
+    this.selectedAccount.set(account);
   }
 
   getAccountIcon(type: string): string {

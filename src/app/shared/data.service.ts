@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Injectable, signal } from '@angular/core';
+import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
 export interface Account {
@@ -77,8 +77,7 @@ export class DataService {
     { id: 't-020', date: new Date('2026-03-05'), description: 'Pending: Online Order', amount: -199.00, type: 'debit', category: 'entertainment', accountId: 'acct-001', status: 'pending' },
   ];
 
-  private loadingSubject = new BehaviorSubject<boolean>(false);
-  loading$: Observable<boolean> = this.loadingSubject.asObservable();
+  loading = signal(false);
 
   getAccounts(): Observable<Account[]> {
     return of(this.accounts).pipe(delay(200));
