@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, tick, discardPeriodicTasks, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TransactionsComponent } from './transactions.component';
 
